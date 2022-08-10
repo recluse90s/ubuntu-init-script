@@ -1,0 +1,6 @@
+*.sublime-workspace
+.vscode/
+.idea/
+
+Thumbs.db
+.DS_Store
