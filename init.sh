@@ -19,15 +19,15 @@ export COLOR_PLAIN='\033[0m'
 # FUNCTIONS
 #
 
-# Usage: deploy_service [param1] [param2]
-# [param1] service name label
-# [param2] service script filename
-deploy_service()
-{
+# Usage:
+#   deploy_service service_name service_file
+# Arguments:
+#   service_name
+#   service_file
+deploy_service() {
     read -t 60 -n9 -p "Would you want to deploy ${1}?(y/n) " result_for_choosing
     if [[ $result_for_choosing =~ y|Y ]]; then
-        DEPLOY_SCRIPT_FILE_NAME=$WORK_PATH/services/${2}.sh
-        chmod +x $DEPLOY_SCRIPT_FILE_NAME && $DEPLOY_SCRIPT_FILE_NAME
+        ${2}
     fi
 }
 
@@ -89,20 +89,17 @@ mkdir -p $SOFTWARES_PATH $WWW_PATH
 # SERVICES
 #
 
-# deploy Docker
-deploy_service Docker docker
+# deploy services
+for service_file in $WORK_PATH/services/*; do
+    if [[ -x $service_file ]]; then
+        service_name=`basename $service_file`
+        service_name=${service_name%.*}
+        deploy_service $service_name $service_file
+    fi
+done
 
-# deploy Nginx
-deploy_service Nginx nginx
+#
+# END
+#
 
-# deploy PHP
-deploy_service PHP php
-
-# deploy MySQL
-deploy_service MySQL mysql
-
-# deploy Redis
-deploy_service Redis redis
-
-# deploy shadowsocks-libev
-deploy_service shadowsocks-libev shadowsocks-libev-debian
+apt autoremove -y
