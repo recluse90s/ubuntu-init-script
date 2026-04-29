@@ -1,16 +1,24 @@
 # Ubuntu Init Script
 
-Just for `Ubuntu 20.04`, to initialize the runtime environment.
+Ubuntu Server initialization script (compatible with 22.04 / 24.04).
 
 ## Usage
 
-```shell
-# `git clone` this repository
-cd ubuntu-init-script
-chmod +x init.sh
-sudo ./init.sh
+```bash
+# Run without cloning:
+sudo bash <(curl -fsSL https://raw.githubusercontent.com/recluse90s/ubuntu-init-script/master/init.sh)
+# Run locally:
+sudo bash init.sh
 # Enjoy it!
 ```
+
+## What it does
+
+- System upgrade
+- Chinese locale & timezone (Asia/Shanghai)
+- TCP BBR congestion control
+- Docker CE (official repository)
+- Cleanup
 
 ## License
 
